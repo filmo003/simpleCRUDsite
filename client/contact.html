@@ -1,0 +1,83 @@
+﻿<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <ul class="nav navbar-nav">
+              <li><a href="/"><b>Home</b></a></li>
+              <li><a href="/contact"><b>Contact</b></a></li>
+              <li><a href="/addContact"><b>Add Contact</b></a></li>
+              <li><a href="/stock"><b>Stock Page</b></a></li>
+              <li><a href="/admin"><b>Admin</b></a></li>
+              <li><a href="/logout">
+                  <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+                  </a>
+              </li>
+
+          </ul>
+
+              <p id="userName">Welcome</p>
+
+        </div>
+    </nav>
+    <script>$(function() {
+        console.log("function()");
+  
+        $.get("userLogin").done(function(response) {
+          document.getElementById("userName").innerHTML = "Welcome " + response.login + "!";
+        });
+      });
+      </script>
+      <br><br>
+      <div class="container">
+          <table class="table" id="contactTable">
+              <thead>
+                  <tr>
+                      <th scope="col">Name</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Address</th>
+                      <th scope="col">Phone Number</th>
+                      <th scope="col">Favorite Place</th>
+                  </tr>
+              </thead>
+              <tbody id='addContacts'></tbody>
+          </table>
+      </div>
+      <script type="text/javascript">
+      // TODO: Fetch contact.json data from the server and display it in the contactTable
+        function grabJson(){
+                var xhr = new XMLHttpRequest;
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200){
+                        var result = xhr.responseText;
+                        console.log("Response is: "+result);
+                        var myObj = JSON.parse(result); //defines the JSON data that we will use in the table.
+                        var html=''; //used to write the actual table
+                        for (var i = 0;myObj[i]!=null;i++){
+                            name = myObj[i].name;
+                            console.log("Name is : "+name);
+                            html += `
+                            <tr>
+                                <td>`+myObj[i].name+`</td>
+                                <td>`+myObj[i].email+`</td>
+                                <td>`+myObj[i].address+`</td>
+                                <td>`+myObj[i].phoneNumber+`</td>
+                                <td><a href="`+myObj[i].favoritePlaceURL+`">`+myObj[i].favoritePlace+`</a><td>
+                            </tr>`;
+                            document.getElementById('addContacts').innerHTML=html;
+                        }
+                    }
+                }
+                xhr.open("GET",'./getListOfContacts');
+                xhr.send(null);
+            }
+            grabJson();
+      </script>
+  </body>
+</html>

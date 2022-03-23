@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    	<meta charset="utf-8">
+    	<meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <!--<link rel="stylesheet" type="text/css" href="client/css/style.css">-->
+	    <title>Welcome to Node.js</title>
+  </head>
+
+  <body>
+   	<div class="jumbotron" style="background: DarkSeaGreen !important">
+        <h1>Welcome to Express (Node.js)</h1>
+    </div>
+
+    <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <div class="loginFields">
+            <p>User:</p>
+            <input id="usrn" type="text" name="user" required maxlength="30">
+            <p>Password:</p>
+            <input id="psswd" type="text" name="psswd" required maxlength="30">
+        </div>
+        <br>
+        <br>
+        <button id= "myButton" type="button" class="btn btn-primary btn-block" onclick="checkUser(document.getElementById('usrn').value,document.getElementById('psswd').value);">
+        Login
+        </button>
+    </div>
+    <div class="col-md-1"></div>
+    </div>
+    <script type="text/javascript">
+      function checkUser(usrn,psswd){
+        console.log("Username and passwords are!: "+usrn+psswd);
+        var xhr = new XMLHttpRequest;
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState == 4 && xhr.status == 200){
+                        var result = xhr.responseText;
+                        console.log("Response is: "+result);
+                        if (result=='inp'){
+                          console.log("Incorrect login detected");
+                          alert("Incorrect Name/Password!");
+                        }
+                        else if(result=='ali'){
+                          console.log('already logged in');
+                          alert("Already logged in! Please logout before logging back in.");
+                        }
+                        else{
+                          window.location.href="/contact"; //succesfull login, redirect to contact page.
+                        }
+
+                    }
+                }
+                var jsonObj={};
+                jsonObj['name']=usrn;
+                jsonObj['password']=psswd;
+
+                jsonObj=JSON.stringify(jsonObj);
+
+                xhr.open("POST",'./sendLoginDetails');
+                xhr.setRequestHeader("Content-type","application/json");
+                xhr.send(jsonObj);
+      }
+    </script>
+  </body>
+</html>

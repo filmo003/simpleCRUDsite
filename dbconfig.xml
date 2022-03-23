@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbconfig>
+  <host>us-cdbr-east-06.cleardb.net</host>
+  <user>b3116ee54ec363</user>
+  <password>4ac9d462</password>
+  <database>heroku_3276367e1f6997f</database>
+  <port>3306</port>
+</dbconfig>
